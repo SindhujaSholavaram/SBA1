@@ -28,6 +28,9 @@ public class ProductMasterDao {
         this.jdbcPassword = jdbcPassword;
     }
 
+	public ProductMasterDao() {
+	}
+
 	protected void connect() throws SQLException {
 		if (jdbcConnection == null || jdbcConnection.isClosed()) {
 			try {

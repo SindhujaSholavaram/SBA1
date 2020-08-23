@@ -86,7 +86,8 @@ public class AdminController extends HttpServlet {
 		String view = "";
 
 		try {
-			List<ProductMaster> products = ProductMaster.getAllItems();
+			ProductMaster ProductMaster = new ProductMaster();
+			List<ProductMaster> products = ProductMaster.getAllProducts();
 			request.setAttribute("products", products);
 			view = "listproducts.jsp";
 		} catch (Exception e) {
@@ -111,8 +112,23 @@ public class AdminController extends HttpServlet {
 	}
 
 	private String insertProduct(HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		return "";
+		ProductMaster product = new ProductMaster();
+		
+		product.setId(Integer.parseInt(request.getParameter("id")));
+		product.setProductName(request.getParameter("productname"));
+		product.setCost(request.getParameter("cost"));
+		product.setProductDescription(request.getParameter("productdescription"));
+				
+		String view="";
+		
+		try {
+			product.validateAndAdd(product);
+			request.setAttribute("msg", "Item Got Added!");
+			view="listproducts.jsp";
+		} catch (Exception e) {
+			view="errorPage.jsp";
+		}
+		return view;
 	}
 
 	private String showNewProductForm(HttpServletRequest request, HttpServletResponse response) {
