@@ -97,9 +97,19 @@ public class AdminController extends HttpServlet {
 	}
 
 	private String updateProduct(HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		return "";
-	}
+		int id = Integer.parseInt(request.getParameter("id"));
+		String view="";
+		ProductMaster product = new ProductMaster();		
+		try {
+			product.getProductById(id);
+			request.setAttribute("product", product);
+			view="listproducts.jsp";
+		} catch (Exception e) {
+			request.setAttribute("errMsg", e.getMessage());
+			view="errPage.jsp";
+		}
+		return view;
+		}
 
 	private String showEditProductForm(HttpServletRequest request, HttpServletResponse response) {
 		// TODO Auto-generated method stub
@@ -107,9 +117,18 @@ public class AdminController extends HttpServlet {
 	}
 
 	private String deleteProduct(HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		return "";
-	}
+		int id = Integer.parseInt(request.getParameter("id"));
+		String view="";
+		ProductMaster product = new ProductMaster();
+		try {
+			product.deleteProduct(id);
+			request.setAttribute("msg", "Item Got Deleted!");
+			view="listproducts.jsp";
+		} catch (Exception e) {
+			view="errPage.jsp";
+		}
+		return view;
+		}
 
 	private String insertProduct(HttpServletRequest request, HttpServletResponse response) {
 		ProductMaster product = new ProductMaster();
@@ -132,9 +151,10 @@ public class AdminController extends HttpServlet {
 	}
 
 	private String showNewProductForm(HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		return "";
-	}
+		ProductMaster product = new ProductMaster();
+		request.setAttribute("product", product);
+		
+		return "listproducts.jsp";	}
 
 	private String adminLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if (request.getParameter("loginid").equals("admin") && request.getParameter("password").equals("admin")) {
